@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Propostas Recebidas - TrocaTroca</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <a href="index.html" class="logo">
+        🔄 TrocaTroca
+    </a>
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="itens.html">
+            Itens
+        </a>
+
+        <a href="propostas.html">
+            Enviadas
+        </a>
+
+        <a href="historico.html">
+            Histórico
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <div class="page-header">
+
+        <span class="tag">
+            PROPOSTAS
+        </span>
+
+        <h1>
+            Propostas recebidas
+        </h1>
+
+        <p>
+            Veja quem deseja trocar itens com você.
+        </p>
+
+    </div>
+
+
+    <div class="proposal-card">
+
+        <div class="proposal-user">
+
+            <div class="user-avatar">
+                M
+            </div>
+
+            <div>
+
+                <strong>
+                    Maria
+                </strong>
+
+                <span>
+                    enviou uma proposta
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="proposal-items">
+
+            <div class="proposal-item">
+
+                <span>
+                    Maria oferece
+                </span>
+
+                <strong>
+                    🎮 FIFA 24
+                </strong>
+
+            </div>
+
+
+            <div class="proposal-arrow">
+                ⇄
+            </div>
+
+
+            <div class="proposal-item">
+
+                <span>
+                    Ela quer
+                </span>
+
+                <strong>
+                    📚 Harry Potter
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="proposal-footer">
+
+            <button
+                class="button"
+                onclick="aceitarProposta()"
+            >
+                ✓ Aceitar
+            </button>
+
+            <button
+                class="button danger"
+                onclick="recusarProposta()"
+            >
+                ✕ Recusar
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+function aceitarProposta() {
+
+    alert("Proposta aceita!");
+
+}
+
+
+function recusarProposta() {
+
+    alert("Proposta recusada.");
+
+}
+
+</script>
+
+</body>
+
+</html>
