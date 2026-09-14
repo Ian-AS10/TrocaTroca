@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Minhas Propostas - TrocaTroca</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <a href="index.html" class="logo">
+        🔄 TrocaTroca
+    </a>
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="itens.html">
+            Itens
+        </a>
+
+        <a href="recebidas.html">
+            Recebidas
+        </a>
+
+        <a href="historico.html">
+            Histórico
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <div class="page-header">
+
+        <span class="tag">
+            NEGOCIAÇÕES
+        </span>
+
+        <h1>
+            Minhas propostas
+        </h1>
+
+        <p>
+            Acompanhe as propostas de troca que você enviou.
+        </p>
+
+    </div>
+
+
+    <div id="listaPropostas">
+
+        <div class="proposal-card">
+
+            <div class="proposal-items">
+
+                <div class="proposal-item">
+
+                    <span>
+                        Você oferece
+                    </span>
+
+                    <strong>
+                        🎮 FIFA 24
+                    </strong>
+
+                </div>
+
+
+                <div class="proposal-arrow">
+                    ⇄
+                </div>
+
+
+                <div class="proposal-item">
+
+                    <span>
+                        Você quer
+                    </span>
+
+                    <strong>
+                        📚 Harry Potter
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="proposal-footer">
+
+                <span class="status pending">
+                    Aguardando resposta
+                </span>
+
+                <button
+                    class="button danger"
+                    onclick="cancelarProposta()"
+                >
+                    Cancelar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script src="js/propostas.js"></script>
+
+</body>
+
+</html>

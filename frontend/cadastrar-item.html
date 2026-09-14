@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar Item - TrocaTroca</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <a href="index.html" class="logo">
+        🔄 TrocaTroca
+    </a>
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="itens.html">
+            Itens
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="auth-page">
+
+    <div class="form-container-large">
+
+        <div class="auth-header">
+
+            <div class="auth-icon">
+                📦
+            </div>
+
+            <h1>
+                Cadastrar item
+            </h1>
+
+            <p>
+                Adicione um objeto que você deseja trocar.
+            </p>
+
+        </div>
+
+
+        <form id="itemForm">
+
+            <div class="form-group">
+
+                <label for="nomeItem">
+                    Nome do item
+                </label>
+
+                <input
+                    type="text"
+                    id="nomeItem"
+                    placeholder="Ex: Livro Harry Potter"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="categoriaItem">
+                    Categoria
+                </label>
+
+                <select id="categoriaItem" required>
+
+                    <option value="">
+                        Selecione uma categoria
+                    </option>
+
+                    <option value="Livros">
+                        Livros
+                    </option>
+
+                    <option value="Eletrônicos">
+                        Eletrônicos
+                    </option>
+
+                    <option value="Roupas">
+                        Roupas
+                    </option>
+
+                    <option value="Jogos">
+                        Jogos
+                    </option>
+
+                    <option value="Outros">
+                        Outros
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="estado">
+                    Estado de conservação
+                </label>
+
+                <select id="estado" required>
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option value="Novo">
+                        Novo
+                    </option>
+
+                    <option value="Excelente">
+                        Excelente
+                    </option>
+
+                    <option value="Bom">
+                        Bom
+                    </option>
+
+                    <option value="Regular">
+                        Regular
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="descricao">
+                    Descrição
+                </label>
+
+                <textarea
+                    id="descricao"
+                    rows="5"
+                    placeholder="Descreva o item..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="button full-button"
+            >
+                Cadastrar item
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<script>
+
+document
+    .getElementById("itemForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        alert("Item cadastrado com sucesso!");
+
+        window.location.href = "itens.html";
+
+    });
+
+</script>
+
+</body>
+
+</html>

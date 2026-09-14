@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Itens - TrocaTroca</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <a href="index.html" class="logo">
+        🔄 TrocaTroca
+    </a>
+
+    <nav class="nav">
+
+        <a href="index.html">
+            Início
+        </a>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="login.html">
+            Entrar
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <div class="page-header">
+
+        <div>
+
+            <span class="tag">
+                ITENS DISPONÍVEIS
+            </span>
+
+            <h1>
+                Encontre algo para trocar
+            </h1>
+
+            <p>
+                Explore os itens cadastrados pela comunidade.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <section class="filters">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="busca"
+                placeholder="🔎 Buscar item..."
+            >
+
+        </div>
+
+
+        <select id="categoria">
+
+            <option value="">
+                Todas as categorias
+            </option>
+
+            <option value="Livros">
+                Livros
+            </option>
+
+            <option value="Eletrônicos">
+                Eletrônicos
+            </option>
+
+            <option value="Roupas">
+                Roupas
+            </option>
+
+            <option value="Jogos">
+                Jogos
+            </option>
+
+            <option value="Outros">
+                Outros
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <section>
+
+        <div
+            id="listaItens"
+            class="items-grid"
+        >
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="js/api.js"></script>
+<script src="js/itens.js"></script>
+
+</body>
+
+</html>
