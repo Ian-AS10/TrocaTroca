@@ -106,9 +106,25 @@ def atualizar_item(item_id):
 
     dados = request.get_json(silent=True) or {}
 
+    if not isinstance(dados, dict):
+        return jsonify({"erro": "Envie um objeto JSON."}), 400
+
+    alteracoes = {}
     for campo in ("nome", "categoria", "estado", "descricao", "icone"):
-        if campo in dados and dados[campo]:
-            setattr(item, campo, dados[campo].strip())
+        if campo not in dados:
+            continue
+        valor = dados[campo]
+        if not isinstance(valor, str) or not valor.strip():
+            return jsonify({"erro": f"O campo {campo} deve ser um texto não vazio."}), 400
+        alteracoes[campo] = valor.strip()
+
+    if "categoria" in alteracoes and alteracoes["categoria"] not in CATEGORIAS_VALIDAS:
+        return jsonify({"erro": "Categoria inválida."}), 400
+    if "estado" in alteracoes and alteracoes["estado"] not in ESTADOS_VALIDOS:
+        return jsonify({"erro": "Estado inválido."}), 400
+
+    for campo, valor in alteracoes.items():
+        setattr(item, campo, valor)
 
     db.session.commit()
     return jsonify(item.to_dict()), 200
