@@ -615,6 +615,15 @@ a {
 }
 
 
+.message.pending {
+
+    background: #dbeafe;
+
+    color: #1e40af;
+
+}
+
+
 .message.error {
 
     background: #fee2e2;

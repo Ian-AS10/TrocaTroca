@@ -29,8 +29,8 @@ Usuário de teste (criado pelo `seed.py`, igual ao que era simulado em
 
 ## Autenticação
 
-Login e cadastro devolvem um token JWT. Envie esse token nas rotas
-protegidas via header:
+O login devolve um token JWT. O frontend guarda esse token após autenticar e
+envia-o nas rotas protegidas via header:
 
 ```
 Authorization: Bearer <token>
@@ -85,10 +85,13 @@ Authorization: Bearer <token>
   pendentes até serem canceladas/recusadas manualmente).
 - Senhas nunca são armazenadas em texto puro (hash via Werkzeug).
 
-## Próximo passo no frontend
+## Frontend
 
-Hoje `login.js`, `cadastro.js`, `itens.js` e as páginas de propostas usam
-dados simulados/hardcoded. Para conectar de verdade a este backend, essas
-telas passam a usar `apiRequest(...)` (já definido em `js/api.js`) contra
-as rotas acima — por exemplo, `apiRequest("/login", { method: "POST",
-body: JSON.stringify({ email, senha }) })` no lugar da simulação atual.
+As telas de login e cadastro usam `apiRequest(...)` em
+`frontend/js/api.js` para validar os dados na API. O login guarda o JWT e os
+dados do usuário no `localStorage`; `apiRequest(...)` envia automaticamente
+o token no header `Authorization: Bearer ...` nas chamadas seguintes.
+
+As telas de itens e propostas ainda contêm dados ou ações simulados e precisam
+ser conectadas aos endpoints correspondentes antes de serem usadas como
+funcionalidades reais.
