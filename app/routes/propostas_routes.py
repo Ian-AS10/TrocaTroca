@@ -119,6 +119,10 @@ def aceitar_proposta(proposta_id):
     if proposta.item_desejado.proprietario_id != request.usuario_atual.id:
         return jsonify({"erro": "Você não pode aceitar essa proposta."}), 403
 
+    if (proposta.item_oferecido.status != "Disponível"or proposta.item_desejado.status != "Disponível"):
+
+        return jsonify({"erro": "Um dos itens desta proposta não está mais disponível."}), 409
+
     if (
         proposta.item_oferecido.status != "Disponível"
         or proposta.item_desejado.status != "Disponível"
