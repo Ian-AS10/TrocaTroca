@@ -80,9 +80,9 @@ Authorization: Bearer <token>
   possível propor troca pelo próprio item.
 - Ao **aceitar** uma proposta, os dois itens envolvidos passam para o
   status `Trocado` e um registro de histórico (`Troca`) é criado
-  automaticamente, encerrando também qualquer outra proposta pendente
-  para esses itens só quando o usuário agir sobre elas (elas continuam
-  pendentes até serem canceladas/recusadas manualmente).
+  automaticamente. Todas as outras propostas pendentes que envolvem
+  esses itens (como oferecido ou desejado) passam para `cancelada`.
+  Aceitar uma proposta cujo item já foi trocado retorna `409`.
 - Senhas nunca são armazenadas em texto puro (hash via Werkzeug).
 
 ## Próximo passo no frontend

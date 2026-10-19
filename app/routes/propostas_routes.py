@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from sqlalchemy import or_
 
 from app.auth import login_obrigatorio
 from app.extensions import db
@@ -107,8 +108,9 @@ def cancelar_proposta(proposta_id):
 def aceitar_proposta(proposta_id):
     """Aceita uma proposta recebida. Só o dono do item desejado pode aceitar.
 
-    Ao aceitar, os dois itens envolvidos passam para o status 'Trocado'
-    e um registro de histórico (Troca) é criado.
+    Ao aceitar, os dois itens envolvidos passam para o status 'Trocado',
+    um registro de histórico (Troca) é criado e as outras propostas
+    pendentes que envolvem esses itens são canceladas automaticamente.
     """
     proposta, erro = _buscar_proposta_pendente(proposta_id)
     if erro:
@@ -116,6 +118,12 @@ def aceitar_proposta(proposta_id):
 
     if proposta.item_desejado.proprietario_id != request.usuario_atual.id:
         return jsonify({"erro": "Você não pode aceitar essa proposta."}), 403
+
+    if (
+        proposta.item_oferecido.status != "Disponível"
+        or proposta.item_desejado.status != "Disponível"
+    ):
+        return jsonify({"erro": "Um dos itens desta proposta não está mais disponível."}), 409
 
     proposta.status = "aceita"
     proposta.item_oferecido.status = "Trocado"
@@ -129,6 +137,19 @@ def aceitar_proposta(proposta_id):
         item2_id=proposta.item_desejado_id,
     )
     db.session.add(troca)
+
+    # Os itens já foram negociados: cancela as demais propostas pendentes
+    # que usam qualquer um dos dois (como oferecido ou como desejado).
+    ids_itens = [proposta.item_oferecido_id, proposta.item_desejado_id]
+    Proposta.query.filter(
+        Proposta.id != proposta.id,
+        Proposta.status == "pendente",
+        or_(
+            Proposta.item_oferecido_id.in_(ids_itens),
+            Proposta.item_desejado_id.in_(ids_itens),
+        ),
+    ).update({"status": "cancelada"}, synchronize_session=False)
+
     db.session.commit()
 
     return jsonify(proposta.to_dict()), 200
