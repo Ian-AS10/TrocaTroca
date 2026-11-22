@@ -4,35 +4,40 @@ import { Header } from './components/Header';
 import { ItemCatalog } from './components/ItemCatalog';
 import { ProfileView } from './components/ProfileView';
 import { TradeProposalsView } from './components/TradeProposalsView';
-import { DatabaseSchemaView } from './components/DatabaseSchemaView';
-import { AuthModal } from './components/AuthModal';
+import { LoginScreen } from './components/LoginScreen';
 import { CreateItemModal } from './components/CreateItemModal';
 import { TradeModal } from './components/TradeModal';
 import { Item } from './types';
 
 function MainContent() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   
-  const [activeTab, setActiveTab] = useState<'catalog' | 'proposals' | 'history' | 'profile' | 'database'>('catalog');
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('login');
+  const [activeTab, setActiveTab] = useState<'catalog' | 'proposals' | 'history' | 'profile'>('catalog');
   
   const [createItemModalOpen, setCreateItemModalOpen] = useState(false);
   const [itemToEdit, setItemToEdit] = useState<Item | null>(null);
   
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
   const [targetTradeItem, setTargetTradeItem] = useState<Item | null>(null);
+  const [catalogRefreshKey, setCatalogRefreshKey] = useState(0);
 
-  const handleOpenAuth = (mode: 'login' | 'register') => {
-    setAuthModalMode(mode);
-    setAuthModalOpen(true);
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-stone-100 flex items-center justify-center p-4">
+        <div className="text-center space-y-2">
+          <div className="w-8 h-8 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin mx-auto" />
+          <p className="text-xs font-semibold text-stone-500">Carregando sessão...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Dedicated Login Screen Gate before accessing the main system
+  if (!user) {
+    return <LoginScreen />;
+  }
 
   const handleOpenCreateItem = () => {
-    if (!user) {
-      handleOpenAuth('login');
-      return;
-    }
     setItemToEdit(null);
     setCreateItemModalOpen(true);
   };
@@ -43,10 +48,6 @@ function MainContent() {
   };
 
   const handleSelectTrade = (item: Item) => {
-    if (!user) {
-      handleOpenAuth('login');
-      return;
-    }
     setTargetTradeItem(item);
     setTradeModalOpen(true);
   };
@@ -58,7 +59,6 @@ function MainContent() {
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        onOpenAuth={handleOpenAuth}
         onOpenCreateItem={handleOpenCreateItem}
       />
 
@@ -66,8 +66,8 @@ function MainContent() {
       <main className="flex-1 pb-16">
         {activeTab === 'catalog' && (
           <ItemCatalog
+            key={catalogRefreshKey}
             onSelectTrade={handleSelectTrade}
-            onOpenAuth={handleOpenAuth}
           />
         )}
 
@@ -85,25 +85,15 @@ function MainContent() {
             onEditItem={handleEditItem}
           />
         )}
-
-        {activeTab === 'database' && (
-          <DatabaseSchemaView />
-        )}
       </main>
 
       {/* Modals */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        initialMode={authModalMode}
-      />
-
       <CreateItemModal
         isOpen={createItemModalOpen}
         onClose={() => setCreateItemModalOpen(false)}
         itemToEdit={itemToEdit}
         onSuccess={() => {
-          // Trigger refresh if needed
+          setCatalogRefreshKey((prev) => prev + 1);
         }}
       />
 
@@ -118,14 +108,14 @@ function MainContent() {
       />
 
       {/* Footer */}
-      <footer className="bg-white border-t border-stone-200 py-6 text-center text-xs text-stone-600">
+      <footer className="bg-white border-t border-stone-200 py-6 text-center text-xs text-stone-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2 font-bold text-stone-800">
+          <div className="flex items-center gap-1.5 font-bold text-stone-800">
             <span className="text-emerald-700">Troca</span> & <span className="text-rose-700">Troca</span>
-            <span className="font-normal text-stone-600">— Projeto Acadêmico Integrado</span>
+            <span className="font-normal text-stone-500">— Plataforma de Economia Circular e Permutas</span>
           </div>
-          <p className="text-stone-600">
-            SQLite • Node.js / Express • Bcrypt • JWT • React 19 • Tailwind CSS
+          <p className="text-stone-400">
+            © {new Date().getFullYear()} Troca & Troca. Todos os direitos reservados.
           </p>
         </div>
       </footer>

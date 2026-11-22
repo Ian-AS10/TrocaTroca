@@ -16,8 +16,6 @@ interface AuthContextType {
     confirmacao_nova_senha?: string;
   }) => Promise<void>;
   refreshUser: () => Promise<void>;
-  allUsers: User[];
-  quickSwitchUser: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,16 +23,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [allUsers, setAllUsers] = useState<User[]>([]);
-
-  const loadAllUsers = useCallback(async () => {
-    try {
-      const res = await api.auth.getAllUsers();
-      setAllUsers(res.users);
-    } catch {
-      // ignore
-    }
-  }, []);
 
   const refreshUser = useCallback(async () => {
     const token = getAuthToken();
@@ -58,8 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     refreshUser();
-    loadAllUsers();
-  }, [refreshUser, loadAllUsers]);
+  }, [refreshUser]);
 
   const login = async (email: string, senha: string) => {
     setLoading(true);
@@ -68,7 +55,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setAuthToken(res.token);
       setUser(res.user);
       await refreshUser();
-      await loadAllUsers();
     } finally {
       setLoading(false);
     }
@@ -81,7 +67,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setAuthToken(res.token);
       setUser(res.user);
       await refreshUser();
-      await loadAllUsers();
     } finally {
       setLoading(false);
     }
@@ -108,12 +93,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const res = await api.auth.updateProfile(data);
     setUser(prev => (prev ? { ...prev, ...res.user } : res.user));
     await refreshUser();
-    await loadAllUsers();
-  };
-
-  const quickSwitchUser = async (email: string) => {
-    // Para simplificar testes acadêmicos e validação dos 4 integrantes, permite login direto
-    await login(email, 'senha123');
   };
 
   return (
@@ -126,8 +105,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         updateProfile,
         refreshUser,
-        allUsers,
-        quickSwitchUser,
       }}
     >
       {children}
