@@ -1,0 +1,6 @@
+{
+  "name": "Troca & Troca",
+  "description": "Sistema acadêmico de troca de itens e negociações com banco SQLite e autenticação.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
